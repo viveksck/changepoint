@@ -29,6 +29,7 @@ setup(
     url='https://github.com/viveksck/changepoint',
     packages=[
         'changepoint',
+        'changepoint.utils'
     ],
     package_dir={'changepoint':
                  'changepoint'},
