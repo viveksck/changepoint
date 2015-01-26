@@ -2,7 +2,8 @@ import numpy as np
 import rpy2.robjects as robjects
 import scipy
 
-def estimate_cp(ts, method="mean", Q = 1, penalty_value = 0.175):
+
+def estimate_cp(ts, method="mean", Q=1, penalty_value=0.175):
     """ Estimate changepoints in a time series by using R. """
 
     """ 
@@ -17,11 +18,11 @@ def estimate_cp(ts, method="mean", Q = 1, penalty_value = 0.175):
     """
     robjects.r("library(changepoint)")
     method_map = {
-                  "mean":"cpt.mean({})", 
-                  "var": "cpt.var({})", 
-                  "meanvar":"cpt.meanvar({})",
-                  "binseg.mean.CUSUM" : "cpt.mean({},penalty='Manual', test.stat='CUSUM',method='BinSeg',Q={},pen.value={})"
-                 }
+        "mean": "cpt.mean({})",
+        "var": "cpt.var({})",
+        "meanvar": "cpt.meanvar({})",
+        "binseg.mean.CUSUM": "cpt.mean({},penalty='Manual', test.stat='CUSUM',method='BinSeg',Q={},pen.value={})"
+    }
     mt = robjects.FloatVector(ts)
     robjects.globalenv["mt"] = mt
     if method == "binseg.mean.CUSUM":
