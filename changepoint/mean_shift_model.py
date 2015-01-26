@@ -1,17 +1,13 @@
 from argparse import ArgumentParser
 import logging
-import pandas as pd
 import numpy as np
 import itertools
 import more_itertools
 import os
 
 from functools import partial
-
 from utils.ts_stats import ts_stats_significance
 from utils.ts_stats import parallelize_func
-
-os.system("taskset -p 0xffff %d" % os.getpid())
 
 __author__ = "Vivek Kulkarni"
 __email__ = "viveksck@gmail.com"

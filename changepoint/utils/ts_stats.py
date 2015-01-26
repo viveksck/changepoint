@@ -9,7 +9,6 @@ from time import time
 from glob import glob
 from functools import partial
 import numpy as np
-import pandas as pd
 import cPickle as pickle
 
 from joblib import Parallel, delayed
@@ -30,7 +29,7 @@ def parallelize_func(iterable, func, chunksz=1, n_jobs=16, *args, **kwargs):
     results = more_itertools.flatten(chunks_results)
     return list(results)
 
-
+# Code taken from: http://nbviewer.ipython.org/github/pv/SciPy-CookBook/blob/master/ipython/SignalSmooth.ipynb
 def smooth(x, window_len=11, window='hanning'):
     """ Smoothen a time series. """
     if x.ndim != 1:
@@ -73,7 +72,7 @@ def ts_stats_significance(ts, ts_stat_func, null_ts_func, B=1000, permute_fast=F
 
     return stats_ts, pvals, nums
 
-
+# Code below taken from http://nbviewer.ipython.org/github/welch/stats-notebooks/blob/master/SubsamplingBootstrap.ipynb
 def bootstrap_ts(y, func, B=1000, b=3):
     """ Bootstrap a timeseries using a window size:b. """
     beta_star = np.empty(B)

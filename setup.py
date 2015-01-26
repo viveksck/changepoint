@@ -12,7 +12,13 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'wheel==0.23.0',
+    'argparse>=1.2.1',
+    'numpy>=0.9.1',
+    'scipy>=0.15.1',
+    'more_itertools>=2.2',
+    'rpy2>=2.4.3',
+    'joblib>=0.8.3-r1',
 ]
 
 test_requirements = [
