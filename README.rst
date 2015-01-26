@@ -20,15 +20,12 @@ Change point detection in Time series
 Features
 --------
 
-* This package implements a mean shift model for change point detection in time
-series
-* This package also provides a python binding to some of the R functions in the
-changepoint package to detect change points.
+* This package implements a mean shift model for change point detection in time series
+* This package also provides a python binding to some of the R functions in the changepoint package to detect change points.
 
 Usage
 -----
 
-**Example Usage**
 ```
 import numpy as np
 from changepoint.mean_shift_model import MeanShiftModel
