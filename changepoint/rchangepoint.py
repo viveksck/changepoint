@@ -32,3 +32,28 @@ def estimate_cp(ts, method="mean", Q=1, penalty_value=0.175):
     robjects.globalenv["mycpt"] = robjects.r(cmd)
     ecp = robjects.r("cpts(mycpt)")
     return ecp
+
+
+def estimate_cp_pval(ts, method="mean"):
+    """ Estimate changepoints in a time series by using R. """
+
+    """ 
+        ts: time series
+        method: look for a single changepoint in 'mean' , 'var', 'mean and var'
+        Returns: returns index of the changepoint, and pvalue. Here pvalue = 1
+                 means statistically significant
+    """
+    robjects.r("library(changepoint)")
+    method_map = {
+        "mean": "cpt.mean({}, class=FALSE)",
+        "var": "cpt.var({}, class=FALSE)",
+        "meanvar": "cpt.meanvar({}, class=FALSE)",
+    }
+    mt = robjects.FloatVector(ts)
+    robjects.globalenv["mt"] = mt
+    cmd = method_map[method].format("mt")
+    robjects.globalenv["mycpt"] = robjects.r(cmd)
+    ecp_pval = robjects.r("mycpt")
+    ecp = ecp_pval[0]
+    pval = ecp_pval[1]
+    return ecp, pval
