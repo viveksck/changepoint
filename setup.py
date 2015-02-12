@@ -17,7 +17,6 @@ requirements = [
     'numpy>=0.9.1',
     'scipy>=0.15.1',
     'more_itertools>=2.2',
-    'rpy2>=2.4.3',
     'joblib>=0.8.3-r1',
 ]
 
