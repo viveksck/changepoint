@@ -25,13 +25,16 @@ Features
 
 Example Usage
 -------------
-```python
-    import numpy as np
-    from changepoint.mean_shift_model import MeanShiftModel
-    ts = np.concatenate([np.random.normal(0, 0.1, 100), np.random.normal(10, 0.1, 100)])
-    model = MeanShiftModel()
-    stats_ts, pvals, nums = model.detect_mean_shift(ts, B=1000)
 ```
+import numpy as np
+from changepoint.mean_shift_model import MeanShiftModel
+ts = np.concatenate([np.random.normal(0, 0.1, 100), np.random.normal(10, 0.1, 100)])
+model = MeanShiftModel()
+stats_ts, pvals, nums = model.detect_mean_shift(ts, B=1000)
+```
+
+
+
 
 Requirements
 ------------
