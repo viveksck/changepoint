@@ -1,15 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from argparse import ArgumentParser
-import logging
-import sys
-from os import path
-from time import time
-from glob import glob
 from functools import partial
 import numpy as np
-import cPickle as pickle
 
 from joblib import Parallel, delayed
 import more_itertools
@@ -29,17 +22,20 @@ def parallelize_func(iterable, func, chunksz=1, n_jobs=16, *args, **kwargs):
     results = more_itertools.flatten(chunks_results)
     return list(results)
 
-# Code taken from: http://nbviewer.ipython.org/github/pv/SciPy-CookBook/blob/master/ipython/SignalSmooth.ipynb
+
+# Code taken from:
+# http://nbviewer.ipython.org/github/pv/SciPy-CookBook/blob/master/ipython/SignalSmooth.ipynb
 def smooth(x, window_len=11, window='hanning'):
     """ Smoothen a time series. """
     if x.ndim != 1:
-        raise ValueError, "smooth only accepts 1 dimension arrays."
+        raise ValueError("smooth only accepts 1 dimension arrays.")
     if x.size < window_len:
-        raise ValueError, "Input vector needs to be bigger than window size."
+        raise ValueError("Input vector needs to be bigger than window size.")
     if window_len < 3:
         return x
-    if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
-        raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
+    if window not in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
+        raise ValueError(
+            "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
 
     s = np.r_[2 * x[0] - x[window_len - 1::-1],
               x, 2 * x[-1] - x[-1:-window_len:-1]]
@@ -72,14 +68,17 @@ def ts_stats_significance(ts, ts_stat_func, null_ts_func, B=1000, permute_fast=F
 
     return stats_ts, pvals, nums
 
-# Code below taken from http://nbviewer.ipython.org/github/welch/stats-notebooks/blob/master/SubsamplingBootstrap.ipynb
+
+# Code below taken from
+# http://nbviewer.ipython.org/github/welch/stats-notebooks/blob/master/SubsamplingBootstrap.ipynb
 def bootstrap_ts(y, func, B=1000, b=3):
     """ Bootstrap a timeseries using a window size:b. """
     beta_star = np.empty(B)
     z = y
     z_star = np.empty(len(z))
     for boot_i in range(B):
-        for block_i, start in enumerate(np.random.randint(len(z) - b + 1, size=len(z) / b)):
+        for block_i, start in enumerate(np.random.randint(len(z) - b + 1,
+                                                          size=len(z) / b)):
             z_star[block_i * b:(block_i + 1) * b] = z[start:start + b]
             beta_star[boot_i] = func(z_star)
     return beta_star
@@ -89,7 +88,6 @@ def get_ci(theta_star, blockratio=1.0):
     """ Get the confidence interval. """
     # get rid of nans while we sort
     b_star = np.sort(theta_star[~np.isnan(theta_star)])
-    se = np.std(b_star) * np.sqrt(blockratio)
     # bootstrap 95% CI based on empirical percentiles
     ci = [b_star[int(len(b_star) * .025)], b_star[int(len(b_star) * .975)]]
     return ci
