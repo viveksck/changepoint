@@ -1,6 +1,4 @@
-import numpy as np
 import rpy2.robjects as robjects
-import scipy
 
 
 def estimate_cp(ts, method="mean", Q=1, penalty_value=0.175):
